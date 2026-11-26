@@ -1,0 +1,957 @@
+<title>Lanzamiento de Perfumes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;1,6..96,500&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one phone-first column, sticky chip nav; the page reads like a
+   perfumer's brief: Didone headings, quiet body, amber as the glass-and-juice accent. */
+:root {
+  --bg: #F6F4F8;
+  --surface: #FFFFFF;
+  --ink: #1F1824;
+  --muted: #6B6274;
+  --line: #E3DDE8;
+  --accent: #94560F;
+  --accent-soft: #F4E7D4;
+  --on-accent: #FFFFFF;
+  --ok: #2E7A4E;
+  --ok-soft: #E1F1E7;
+  --due: #A8335A;
+  --due-soft: #F7E1E8;
+  --font-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141017; --surface: #1D1822; --ink: #F0EBF3; --muted: #A69CAF; --line: #342C3B;
+    --accent: #E3A858; --accent-soft: #3A2B18; --on-accent: #1A1206;
+    --ok: #74C99A; --ok-soft: #173225; --due: #F08AA8; --due-soft: #3A1A26;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141017; --surface: #1D1822; --ink: #F0EBF3; --muted: #A69CAF; --line: #342C3B;
+  --accent: #E3A858; --accent-soft: #3A2B18; --on-accent: #1A1206;
+  --ok: #74C99A; --ok-soft: #173225; --due: #F08AA8; --due-soft: #3A1A26;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+
+.wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+h1 { font-family: var(--font-display); font-weight: 500; font-size: clamp(2rem, 7vw, 3.1rem); line-height: 1.08; letter-spacing: -0.01em; }
+h1 em { font-style: italic; color: var(--accent); }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.65rem; line-height: 1.15; }
+h3 { font-size: 1rem; font-weight: 700; }
+p { margin: 0; }
+.eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+.muted { color: var(--muted); }
+.small { font-size: 0.85rem; }
+
+/* Nav */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.nav-in { display: flex; gap: 6px; overflow-x: auto; padding-block: 10px; scrollbar-width: none; }
+.nav-in::-webkit-scrollbar { display: none; }
+.nav a { flex: none; text-decoration: none; color: var(--ink); font-size: 0.85rem; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); }
+.nav a:hover, .nav a:focus-visible { border-color: var(--accent); color: var(--accent); }
+
+/* Sections */
+main { display: flex; flex-direction: column; gap: 56px; padding-block: 32px 80px; }
+section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 64px); }
+.sec-head { display: flex; flex-direction: column; gap: 6px; }
+.sec-head p { max-width: 62ch; color: var(--muted); }
+
+.hero { display: flex; flex-direction: column; gap: 16px; }
+.hero p.lead { font-size: 1.05rem; max-width: 58ch; color: var(--muted); }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+
+/* Forms */
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+label.f { display: flex; flex-direction: column; gap: 4px; font-size: 0.8rem; font-weight: 600; color: var(--muted); min-width: 0; }
+input, select, textarea { font: inherit; font-size: 0.95rem; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px; width: 100%; min-width: 0; }
+input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pre { position: relative; }
+.pre span { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.pre input { padding-left: 24px; }
+
+button { font: inherit; cursor: pointer; }
+.btn { background: var(--accent); color: var(--on-accent); border: 0; border-radius: 8px; padding: 9px 14px; font-weight: 700; font-size: 0.9rem; }
+.btn:hover { filter: brightness(1.07); }
+.btn-ghost { background: transparent; color: var(--accent); border: 1px solid var(--line); border-radius: 8px; padding: 6px 11px; font-weight: 700; font-size: 0.82rem; }
+.btn-ghost:hover { border-color: var(--accent); }
+.btn-ghost.done { color: var(--ok); border-color: var(--ok); }
+.link-btn { background: none; border: 0; padding: 0; color: var(--muted); font-size: 0.8rem; text-decoration: underline; }
+.link-btn.danger { color: var(--due); }
+
+.status { font-size: 0.82rem; color: var(--muted); }
+.status.warn { color: var(--due); }
+
+/* Checklist */
+.checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.checks li { border-top: 1px solid var(--line); }
+.checks li:first-child { border-top: 0; }
+.checks label { display: grid; grid-template-columns: 22px 1fr; gap: 12px; padding: 12px 4px; cursor: pointer; align-items: start; }
+.checks input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--accent); }
+.checks b { font-weight: 700; }
+.checks .done-txt b, .checks .done-txt span { color: var(--muted); text-decoration: line-through; }
+.progress { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; font-weight: 600; }
+.bar { flex: 1; height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .3s; }
+
+/* Names */
+.names { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+.name { border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 4px; background: var(--surface); }
+.name strong { font-family: var(--font-display); font-size: 1.3rem; font-weight: 500; }
+.name .h { font-size: 0.8rem; color: var(--muted); }
+.name .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 6px; }
+
+/* Copy cards */
+.copies { display: flex; flex-direction: column; gap: 10px; }
+.copy { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.copy.hl { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.copy .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.copy .when { font-size: 0.8rem; font-weight: 700; color: var(--muted); }
+.copy .txt { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.95rem; }
+.count { font-size: 0.75rem; font-variant-numeric: tabular-nums; color: var(--muted); }
+.count.over { color: var(--due); font-weight: 700; }
+
+/* Perfumes */
+.perfs { display: flex; flex-direction: column; gap: 12px; }
+.perf { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: grid; grid-template-columns: 34px 1fr; gap: 12px; }
+.perf .num { font-family: var(--font-display); font-size: 1.6rem; color: var(--accent); line-height: 1; padding-top: 4px; }
+.perf .body { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.perf .money { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.perf .margin { font-size: 0.85rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.perf .margin.ok { color: var(--ok); }
+.perf .margin.low { color: var(--due); }
+
+/* Tips list */
+.tips { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.tip { border-left: 2px solid var(--accent); padding: 4px 0 4px 12px; display: flex; flex-direction: column; gap: 4px; }
+.tip h3 { font-size: 0.95rem; }
+.tip p { font-size: 0.9rem; color: var(--muted); }
+
+.split { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.slot { border: 1px dashed var(--line); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+.slot .k { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; color: var(--accent); }
+.slot p { font-size: 0.88rem; }
+
+/* Tracker */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; min-width: 0; }
+.stat .v { font-size: 1.35rem; font-weight: 700; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.stat .l { font-size: 0.75rem; color: var(--muted); font-weight: 600; }
+@media (max-width: 520px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+.filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 5px 12px; font-size: 0.82rem; font-weight: 600; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.list { display: flex; flex-direction: column; gap: 8px; }
+.item { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.item .l1 { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+.item .who { font-weight: 700; overflow-wrap: anywhere; }
+.item .meta { font-size: 0.82rem; color: var(--muted); overflow-wrap: anywhere; }
+.item .l2 { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.item select { width: auto; padding: 5px 8px; font-size: 0.85rem; font-weight: 600; border-radius: 999px; }
+.item .monto { width: 130px; }
+.pill { font-size: 0.75rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; }
+.pill.due { background: var(--due-soft); color: var(--due); }
+.pill.ok { background: var(--ok-soft); color: var(--ok); }
+.empty { border: 1px dashed var(--line); border-radius: 10px; padding: 18px; text-align: center; color: var(--muted); font-size: 0.9rem; }
+.confirm { display: flex; gap: 8px; align-items: center; font-size: 0.82rem; }
+
+/* Grid of posts */
+.grid9 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; max-width: 420px; }
+.tile { aspect-ratio: 3 / 4; max-width: 100%; background: var(--accent-soft); color: var(--ink); padding: 8px; display: flex; flex-direction: column; justify-content: space-between; font-size: 0.72rem; line-height: 1.3; overflow: hidden; }
+.tile:nth-child(odd) { background: var(--surface); border: 1px solid var(--line); }
+.tile b { font-family: var(--font-display); font-size: 1.15rem; color: var(--accent); font-weight: 500; }
+.tile span { overflow-wrap: anywhere; }
+.two { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 700px) { .two { grid-template-columns: 1fr; } }
+ol.plain { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 0.92rem; }
+
+/* Routine */
+.week { display: flex; flex-direction: column; }
+.week .d { display: grid; grid-template-columns: 120px 1fr auto; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); align-items: baseline; }
+.week .d:first-child { border-top: 0; }
+.week .d .when { font-weight: 700; }
+.week .d .t { font-variant-numeric: tabular-nums; color: var(--accent); font-weight: 700; font-size: 0.85rem; white-space: nowrap; }
+@media (max-width: 520px) { .week .d { grid-template-columns: 1fr auto; } .week .d .t { grid-row: 1; grid-column: 2; } .week .d .what { grid-column: 1 / -1; } }
+
+.note { background: var(--accent-soft); border-radius: 10px; padding: 12px 14px; font-size: 0.9rem; }
+
+footer { color: var(--muted); font-size: 0.8rem; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+</style>
+
+<nav class="nav" aria-label="Secciones">
+  <div class="wrap nav-in">
+    <a href="#hoy">Hoy</a>
+    <a href="#cuenta">Cuenta</a>
+    <a href="#perfumes">Tus 5</a>
+    <a href="#muestras">Muestras</a>
+    <a href="#lista">Lista</a>
+    <a href="#mensajes">Mensajes</a>
+    <a href="#contenido">Contenido</a>
+    <a href="#rutina">Rutina</a>
+    <a href="#escalar">Escalar</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <header class="hero">
+    <span class="eyebrow">Plan de arranque</span>
+    <h1>Cinco perfumes, una cuenta linda y <em>3 horas por semana</em>.</h1>
+    <p class="lead">Completá estos tres datos y toda la página se arma con tu nombre: la bio, los mensajes y los posts.</p>
+    <div class="panel">
+      <div class="fields">
+        <label class="f" for="a-marca">Nombre de la cuenta
+          <input id="a-marca" data-aj="marca" placeholder="Ej: Estela Perfumes" autocomplete="off">
+        </label>
+        <label class="f" for="a-usuario">Usuario (@)
+          <input id="a-usuario" data-aj="usuario" placeholder="Ej: estela.perfumes" autocomplete="off">
+        </label>
+        <label class="f" for="a-zona">Dónde entregás
+          <input id="a-zona" data-aj="zona" placeholder="Ej: Palermo y alrededores" autocomplete="off">
+        </label>
+      </div>
+      <p class="status" id="db-status">Conectando con tus datos…</p>
+    </div>
+  </header>
+
+  <!-- HOY -->
+  <section id="hoy">
+    <div class="sec-head">
+      <span class="eyebrow">Una tarde</span>
+      <h2>Armá todo en una tarde</h2>
+      <p>Hacelo en este orden. Cuando termines, la cuenta ya puede vender.</p>
+    </div>
+    <div class="panel">
+      <div class="progress"><span id="prog-txt">0 de 9</span><div class="bar"><i id="prog-bar"></i></div></div>
+      <ul class="checks" id="checks"></ul>
+    </div>
+  </section>
+
+  <!-- CUENTA -->
+  <section id="cuenta">
+    <div class="sec-head">
+      <span class="eyebrow">La cuenta</span>
+      <h2>Nombre, bio y destacadas</h2>
+      <p>Ideas de nombre que salen del mundo del perfume. Fijate que el @ esté libre en Instagram antes de enamorarte de uno.</p>
+    </div>
+    <div class="names" id="names"></div>
+
+    <h3>Bio (Instagram deja 150 caracteres)</h3>
+    <div class="copies" id="bios"></div>
+
+    <div class="panel">
+      <h3>Historias destacadas</h3>
+      <p class="small muted">Cuatro círculos, todos con la misma portada: fondo liso del color de tu marca y una palabra.</p>
+      <div class="split">
+        <div class="slot"><span class="k">1</span><p><b>Perfumes</b>: una historia por perfume, con foto y a qué huele.</p></div>
+        <div class="slot"><span class="k">2</span><p><b>Cómo comprar</b>: escribís, lo olés, pagás, te llega.</p></div>
+        <div class="slot"><span class="k">3</span><p><b>Reseñas</b>: capturas de clientes contentos.</p></div>
+        <div class="slot"><span class="k">4</span><p><b>Entregas</b>: zonas, días y formas de pago.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERFUMES -->
+  <section id="perfumes">
+    <div class="sec-head">
+      <span class="eyebrow">Catálogo</span>
+      <h2>Tus 5 perfumes</h2>
+      <p>Cargalos una vez y se usan en los mensajes, los posts y la lista. Poné cuánto te sale cada uno y a cuánto lo vendés: abajo ves cuánto ganás.</p>
+    </div>
+    <div class="perfs" id="perfs"></div>
+  </section>
+
+  <!-- MUESTRAS -->
+  <section id="muestras">
+    <div class="sec-head">
+      <span class="eyebrow">Tu mejor arma</span>
+      <h2>Cómo usar las 5 muestras</h2>
+      <p>Un perfume se vende cuando la persona lo huele. Las muestras son tu vendedor: la idea es que lo huela la mayor cantidad de gente posible, sin que se te gasten.</p>
+    </div>
+    <div class="tips">
+      <div class="tip"><h3>Usá tiras para oler</h3><p>Comprá cartulina blanca y cortala en tiras de 1 × 12 cm. Rociás la tira, no a la persona. Escribile el nombre del perfume y tu @, y que se la lleve. Una muestra rinde para cientos de tiras.</p></div>
+      <div class="tip"><h3>Llevalas siempre encima</h3><p>Facultad, laburo, gimnasio, juntadas. "¿Querés oler algo?" funciona mejor que cualquier post.</p></div>
+      <div class="tip"><h3>Anotá a cada persona</h3><p>Todo el que huele va a la lista de abajo, con qué perfume olió. Sin eso, el seguimiento se pierde.</p></div>
+      <div class="tip"><h3>Escribile al otro día</h3><p>A las 24 o 48 horas, con el mensaje que ya está listo. Ahí es cuando se vende.</p></div>
+      <div class="tip"><h3>Prestá 2 a gente que habla</h3><p>La amiga a la que todos le preguntan qué perfume usa. Dos días de prueba a cambio de una historia contando qué le pareció.</p></div>
+      <div class="tip"><h3>Precio de lanzamiento</h3><p>Los primeros 10 que compren pagan menos. Le da una razón para decidirse esta semana y no "más adelante".</p></div>
+    </div>
+  </section>
+
+  <!-- LISTA -->
+  <section id="lista">
+    <div class="sec-head">
+      <span class="eyebrow">Seguimiento</span>
+      <h2>Quién olió qué</h2>
+      <p>Anotá a cada persona que huele un perfume. La lista te marca a quién escribirle hoy y con qué mensaje.</p>
+    </div>
+    <div class="stats" id="stats"></div>
+
+    <form class="panel" id="add-form" autocomplete="off">
+      <h3>Anotar a alguien</h3>
+      <div class="fields">
+        <label class="f" for="c-nombre">Nombre
+          <input id="c-nombre" required placeholder="Ej: Sofi del laburo">
+        </label>
+        <label class="f" for="c-contacto">WhatsApp o @ (opcional)
+          <input id="c-contacto" placeholder="Ej: 11 5555 5555">
+        </label>
+        <label class="f" for="c-perfume">Qué olió
+          <select id="c-perfume" class="perf-select"></select>
+        </label>
+        <label class="f" for="c-estado">Estado
+          <select id="c-estado"></select>
+        </label>
+      </div>
+      <div class="fields">
+        <label class="f" for="c-nota">Nota (opcional)
+          <input id="c-nota" placeholder="Ej: le gustó, lo quiere para el cumple de la novia">
+        </label>
+      </div>
+      <div><button class="btn" type="submit" id="c-submit">Anotar</button> <span class="status" id="add-status"></span></div>
+    </form>
+
+    <div class="filters" role="group" aria-label="Filtrar lista">
+      <button class="chip" type="button" data-filtro="todos" aria-pressed="true">Todos</button>
+      <button class="chip" type="button" data-filtro="hoy" aria-pressed="false">Escribirles hoy</button>
+      <button class="chip" type="button" data-filtro="compro" aria-pressed="false">Compraron</button>
+    </div>
+    <div class="list" id="list"></div>
+  </section>
+
+  <!-- MENSAJES -->
+  <section id="mensajes">
+    <div class="sec-head">
+      <span class="eyebrow">Copiar y pegar</span>
+      <h2>Mensajes listos</h2>
+      <p>Elegí el perfume y el nombre, y copiá. Tip: guardalos como respuestas rápidas en WhatsApp Business (se usan escribiendo "/" en el chat) para no buscarlos nunca más.</p>
+    </div>
+    <div class="panel">
+      <div class="fields">
+        <label class="f" for="m-perfume">Perfume
+          <select id="m-perfume" class="perf-select"></select>
+        </label>
+        <label class="f" for="m-nombre">Nombre de la persona
+          <input id="m-nombre" placeholder="Ej: Sofi" autocomplete="off">
+        </label>
+      </div>
+    </div>
+    <div class="copies" id="msgs"></div>
+  </section>
+
+  <!-- CONTENIDO -->
+  <section id="contenido">
+    <div class="sec-head">
+      <span class="eyebrow">Instagram</span>
+      <h2>Los primeros 9 posts</h2>
+      <p>Así se va a ver tu perfil. Subilos en orden del 1 al 9: el 1 queda abajo a la derecha y el último arriba a la izquierda.</p>
+    </div>
+    <div class="two">
+      <div class="grid9" id="grid9" aria-label="Vista previa del perfil"></div>
+      <div class="panel">
+        <h3>Para que se vea lindo</h3>
+        <ol class="plain">
+          <li>Todas las fotos el mismo día, al lado de una ventana, sin flash.</li>
+          <li>Siempre el mismo fondo (una tela, una madera, una cartulina) y el mismo filtro.</li>
+          <li>Frasco en primer plano y algo que cuente a qué huele: una fruta, una flor, café.</li>
+          <li>Si alguno es "inspirado en" otra marca, no pongas ese nombre ni su logo. Instagram baja cuentas por eso.</li>
+        </ol>
+      </div>
+    </div>
+
+    <h3>Reels que se repiten cada semana</h3>
+    <div class="tips">
+      <div class="tip"><h3>A qué huele en 10 segundos</h3><p>El frasco en la mano y tres notas escritas en pantalla. Uno por perfume y lo podés repetir.</p></div>
+      <div class="tip"><h3>Reacciones</h3><p>Gente oliendo la tira sin saber cuál es. Es el formato que más se comparte.</p></div>
+      <div class="tip"><h3>Prueba de duración</h3><p>Te lo ponés a la mañana y a la noche contás si sigue. Responde la duda que todos tienen.</p></div>
+      <div class="tip"><h3>Un perfume para…</h3><p>Primera cita, laburo, verano, noche. Ayuda a elegir al que no sabe nada de perfumes.</p></div>
+    </div>
+  </section>
+
+  <!-- RUTINA -->
+  <section id="rutina">
+    <div class="sec-head">
+      <span class="eyebrow">Que no se haga pesado</span>
+      <h2>La semana, en 3 horas</h2>
+      <p>Todo lo que lleva tiempo se hace junto, un solo día. El resto son ratos cortos con el celular.</p>
+    </div>
+    <div class="panel week">
+      <div class="d"><span class="when">Domingo</span><span class="what">Grabás 3 reels y sacás fotos de una. Los dejás programados para la semana desde la opción de programar de Instagram.</span><span class="t">1 h</span></div>
+      <div class="d"><span class="when">Todos los días</span><span class="what">Respondés mensajes con las respuestas rápidas, subís una historia y mirás "Escribirles hoy" en la lista.</span><span class="t">15 min</span></div>
+      <div class="d"><span class="when">Viernes</span><span class="what">Un mensaje a tu lista de difusión de WhatsApp: novedad, foto o promo del finde.</span><span class="t">5 min</span></div>
+      <div class="d"><span class="when">Fin de mes</span><span class="what">Mirás en la lista qué perfume se vendió más y reponés ese primero.</span><span class="t">15 min</span></div>
+    </div>
+    <p class="note">La lista de difusión de WhatsApp solo le llega a la gente que te tiene agendado. Cuando alguien te escriba, pedile que te agende.</p>
+  </section>
+
+  <!-- ESCALAR -->
+  <section id="escalar">
+    <div class="sec-head">
+      <span class="eyebrow">Después de las primeras 10 ventas</span>
+      <h2>Cómo crecer sin más trabajo</h2>
+    </div>
+    <div class="tips">
+      <div class="tip"><h3>Reponé lo que sale</h3><p>La lista te dice cuál se vende. Comprá más de ese antes de sumar uno nuevo.</p></div>
+      <div class="tip"><h3>Que te recomienden</h3><p>Descuento en la próxima compra para quien te trae a alguien que compra. Ya está en el mensaje de después de la venta.</p></div>
+      <div class="tip"><h3>Decants</h3><p>Si los frascos son originales, podés fraccionar en 5 o 10 ml y venderlos más baratos. Más gente prueba y después compra el frasco.</p></div>
+      <div class="tip"><h3>Cobrar fácil</h3><p>Link de pago o alias para transferencia, fijado en el catálogo de WhatsApp Business.</p></div>
+      <div class="tip"><h3>Uno nuevo por mes</h3><p>Sumá el perfume que más te pidieron. Te da contenido nuevo y una excusa para escribirle a todos.</p></div>
+      <div class="tip"><h3>Recompra</h3><p>A los 2 o 3 meses, mensaje al que ya compró. Venderle al mismo cuesta mucho menos que conseguir uno nuevo.</p></div>
+    </div>
+  </section>
+
+  <footer>Lo que cargás en esta página se guarda en tu cuenta y lo ves desde cualquier dispositivo.</footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Content ---------- */
+  var PERF_IDS = ["p1", "p2", "p3", "p4", "p5"];
+  var ESTADOS = [
+    ["probo", "Lo olió"],
+    ["escribi", "Le escribí"],
+    ["compro", "Compró"],
+    ["no", "No por ahora"]
+  ];
+  var ESTADO_LABEL = {};
+  ESTADOS.forEach(function (e) { ESTADO_LABEL[e[0]] = e[1]; });
+
+  var CHECKS = [
+    ["nombre", "Elegí el nombre", "Mirá las ideas de abajo y fijate que el @ esté libre."],
+    ["cuenta", "Creá la cuenta de Instagram y pasala a profesional", "Se hace desde la configuración. Te da estadísticas, respuestas guardadas y para programar posts."],
+    ["foto", "Foto de perfil", "El frasco más lindo con fondo liso, o la inicial de la marca en un círculo."],
+    ["bio", "Pegá la bio", "Tenés tres opciones abajo, ya con tu nombre y tu zona."],
+    ["wa", "Bajate WhatsApp Business y cargá el catálogo", "Los 5 perfumes con foto y precio. Poné el link de WhatsApp en la bio."],
+    ["rapidas", "Guardá las respuestas rápidas", "Los mensajes de la sección Mensajes, con atajos tipo /precio y /oler."],
+    ["tiras", "Cortá las tiras para oler", "Cartulina blanca, tiras de 1 × 12 cm, con tu @ escrito o en un sticker."],
+    ["fotos", "Sacá las fotos de los 5 frascos", "Todas el mismo día, mismo fondo, luz de ventana."],
+    ["lanzar", "Subí los primeros 3 posts y avisale a tus contactos", "Con el mensaje de lanzamiento a tu lista de difusión."]
+  ];
+
+  var NAMES = [
+    ["Estela", "La estela es el rastro que deja un perfume cuando pasás.", "estela.perfumes"],
+    ["Nota Alta", "Lo primero que olés de un perfume, antes de que se asiente.", "notaalta.perfumes"],
+    ["Notas de Fondo", "Lo que queda en la piel al final del día.", "notasdefondo"],
+    ["Rastro", "Corto, fácil de recordar y de decir.", "rastro.perfumes"],
+    ["Gota", "Una sola gota alcanza. Simple y lindo para un logo.", "gota.perfumes"],
+    ["Olfato", "Va directo al tema, suena a alguien que sabe.", "olfato.ar"]
+  ];
+
+  var BIOS = [
+    "Perfumes que dejan estela ✨\n5 fragancias elegidas una por una\n👃 Probalos antes de comprar\n📍 Entregas en {zona}\n👇 Pedí por WhatsApp",
+    "Tu próximo perfume favorito está acá 🖤\nTe lo hago oler antes de que lo compres\n📍 {zona} · envíos\n💬 Escribime y te asesoro",
+    "Un perfume para cada momento: laburo, salida, cita ✨\nMuestras para oler 👃\n📍 {zona}\n👇 Consultas por WhatsApp"
+  ];
+
+  var MSGS = [
+    { id: "oler", cuando: "24 a 48 hs después de que lo olió",
+      txt: "¡Hola {nombre}! ¿Qué tal? Te escribo por el {perfume} que oliste. ¿Cómo te quedó en la piel después de unas horas? 😊 Si te gustó, lo tengo a {precio}. Te lo alcanzo o te lo mando, como te quede mejor." },
+    { id: "precio", cuando: "Cuando te preguntan el precio",
+      txt: "¡Hola {nombre}! Gracias por escribir 🙌 El {perfume} está {precio}. Tiene notas de {huele}. Si querés, antes de comprarlo te lo hago oler, tengo muestra. Entrego en {zona}." },
+    { id: "ultimo", cuando: "Si no respondió en 4 días (el último, no insistas más)",
+      txt: "¡Hola {nombre}! Te escribo una última vez por el {perfume}, no te quiero llenar de mensajes 😅 Si en algún momento lo querés, avisame y te lo separo. ¡Gracias por olerlo!" },
+    { id: "resena", cuando: "Después de que compró",
+      txt: "¡Gracias por la compra, {nombre}! 💛 Si te gusta, ¿me harías una historia usándolo y me etiquetás en @{usuario}? Me ayuda un montón. Y si le pasás mi contacto a alguien que compre, te hago un descuento en tu próxima." },
+    { id: "difusion", cuando: "Lista de difusión: lanzamiento",
+      txt: "¡Hola! Arranqué con {marca} 🖤 Elegí 5 perfumes que me encantan y los podés oler antes de comprar 👃 Esta semana tengo precio de lanzamiento. ¿Querés que te pase fotos y precios? Respondé con un 👍" },
+    { id: "recompra", cuando: "A los 2 o 3 meses de la compra",
+      txt: "¡Hola {nombre}! ¿Cómo venís con el {perfume}? Si se te está terminando avisame, a los que ya me compraron les guardo el precio. Me entró algo nuevo que te puede gustar, ¿te paso foto?" }
+  ];
+
+  var GAPS = { perfume: "perfume", precio: "precio", huele: "a qué huele", zona: "tu zona", marca: "tu marca", usuario: "tu usuario" };
+
+  /* ---------- State ---------- */
+  var S = {
+    aj: { marca: "", usuario: "", zona: "" },
+    perf: {},
+    contactos: [],
+    hechos: {},
+    db: null,
+    canWrite: true,
+    filtro: "todos",
+    destacar: null
+  };
+  PERF_IDS.forEach(function (id) { S.perf[id] = { nombre: "", huele: "", para: "", costo: "", precio: "" }; });
+
+  /* ---------- Helpers ---------- */
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function num(v) { var n = parseFloat(v); return isFinite(n) ? n : null; }
+  function money(v) { var n = num(v); return n == null ? "" : "$" + Math.round(n).toLocaleString("es-AR"); }
+  function perfName(id) { var p = S.perf[id]; return (p && p.nombre) ? p.nombre : "Perfume " + (PERF_IDS.indexOf(id) + 1); }
+  function chars(s) { return Array.from(s).length; }
+  function daysSince(iso) { var t = Date.parse(iso); return isFinite(t) ? (Date.now() - t) / 86400000 : 0; }
+  function ago(iso) {
+    var d = Math.floor(daysSince(iso));
+    if (d <= 0) return "hoy";
+    if (d === 1) return "ayer";
+    return "hace " + d + " días";
+  }
+  function fill(t, v) {
+    return t
+      .replace(/ \{nombre\}/g, v.nombre ? " " + v.nombre : "")
+      .replace(/, \{nombre\}/g, v.nombre ? ", " + v.nombre : "")
+      .replace(/\{(\w+)\}/g, function (m, k) { return v[k] ? v[k] : "[" + (GAPS[k] || k) + "]"; });
+  }
+  function vars(perfId, nombre) {
+    var p = S.perf[perfId] || {};
+    return {
+      nombre: nombre || "",
+      perfume: p.nombre || "",
+      precio: money(p.precio),
+      huele: p.huele || "",
+      zona: S.aj.zona,
+      marca: S.aj.marca,
+      usuario: (S.aj.usuario || "").replace(/^@/, "")
+    };
+  }
+  function status(msg, warn) { var el = $("db-status"); el.textContent = msg; el.className = "status" + (warn ? " warn" : ""); }
+
+  /* Writes: one at a time per document. */
+  var queues = {};
+  function queueWrite(path, fn) {
+    var prev = queues[path] || Promise.resolve();
+    var next = prev.then(fn).catch(onWriteError);
+    queues[path] = next;
+    return next;
+  }
+  function onWriteError(e) {
+    var code = e && e.code;
+    if (code === "invalid_argument" || code === "not_granted") {
+      S.canWrite = false;
+      status("Esta página es de solo lectura para vos: los cambios no se guardan.", true);
+    } else if (code === "quota_exceeded") {
+      status("Se llenó el espacio de la lista. Borrá contactos viejos para anotar nuevos.", true);
+    } else {
+      status("No se pudo guardar el último cambio. Probá de nuevo en un rato.", true);
+    }
+  }
+  var timers = {};
+  function debounce(key, ms, fn) { clearTimeout(timers[key]); timers[key] = setTimeout(fn, ms); }
+
+  function saveAjustes() {
+    if (!S.db || !S.canWrite) return;
+    var body = { marca: S.aj.marca, usuario: S.aj.usuario, zona: S.aj.zona };
+    debounce("aj", 700, function () { queueWrite("ajustes/general", function () { return S.db.doc("ajustes/general").set(body); }); });
+  }
+  function savePerf(id) {
+    if (!S.db || !S.canWrite) return;
+    debounce("perf-" + id, 700, function () {
+      var p = S.perf[id];
+      var body = { nombre: p.nombre, huele: p.huele, para: p.para, costo: num(p.costo), precio: num(p.precio) };
+      queueWrite("perfumes/" + id, function () { return S.db.doc("perfumes/" + id).set(body); });
+    });
+  }
+  function saveChecks() {
+    if (!S.db || !S.canWrite) return;
+    var body = { hechos: Object.assign({}, S.hechos) };
+    debounce("checks", 300, function () { queueWrite("progreso/checklist", function () { return S.db.doc("progreso/checklist").set(body); }); });
+  }
+
+  /* Copy */
+  document.addEventListener("click", function (ev) {
+    var b = ev.target.closest("[data-copy]");
+    if (!b) return;
+    var el = $(b.getAttribute("data-copy"));
+    if (!el) return;
+    var text = el.textContent;
+    function ok() { b.textContent = "Copiado"; b.classList.add("done"); setTimeout(function () { b.textContent = "Copiar"; b.classList.remove("done"); }, 1600); }
+    function fallback() {
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      b.textContent = "Seleccionado: copialo";
+      setTimeout(function () { b.textContent = "Copiar"; }, 2500);
+    }
+    try {
+      var p = navigator.clipboard && navigator.clipboard.writeText(text);
+      if (p && p.then) p.then(ok, fallback); else fallback();
+    } catch (e) { fallback(); }
+  });
+
+  /* ---------- Render: static once ---------- */
+  function buildChecks() {
+    $("checks").innerHTML = CHECKS.map(function (c) {
+      return '<li><label for="chk-' + c[0] + '"><input type="checkbox" id="chk-' + c[0] + '" data-chk="' + c[0] + '">' +
+        '<div><b>' + esc(c[1]) + '</b><br><span class="small muted">' + esc(c[2]) + '</span></div></label></li>';
+    }).join("");
+    $("checks").addEventListener("change", function (ev) {
+      var id = ev.target.getAttribute("data-chk");
+      if (!id) return;
+      S.hechos[id] = ev.target.checked;
+      renderChecks();
+      saveChecks();
+    });
+  }
+  function renderChecks() {
+    var done = 0;
+    CHECKS.forEach(function (c) {
+      var box = $("chk-" + c[0]);
+      var on = !!S.hechos[c[0]];
+      if (on) done++;
+      box.checked = on;
+      box.nextElementSibling.className = on ? "done-txt" : "";
+    });
+    $("prog-txt").textContent = done + " de " + CHECKS.length;
+    $("prog-bar").style.width = (done / CHECKS.length * 100) + "%";
+  }
+
+  function buildNames() {
+    $("names").innerHTML = NAMES.map(function (n, i) {
+      return '<div class="name"><strong>' + esc(n[0]) + '</strong><span class="h">' + esc(n[1]) + '</span>' +
+        '<div class="row"><span class="small muted">@' + esc(n[2]) + '</span>' +
+        '<button type="button" class="btn-ghost" data-name="' + i + '">Usar este</button></div></div>';
+    }).join("");
+    $("names").addEventListener("click", function (ev) {
+      var b = ev.target.closest("[data-name]");
+      if (!b) return;
+      var n = NAMES[+b.getAttribute("data-name")];
+      S.aj.marca = n[0] + " Perfumes";
+      S.aj.usuario = n[2];
+      renderAjustes(true);
+      renderText();
+      saveAjustes();
+      b.textContent = "Elegido"; b.classList.add("done");
+      setTimeout(function () { b.textContent = "Usar este"; b.classList.remove("done"); }, 1600);
+    });
+  }
+
+  function buildAjustes() {
+    document.querySelectorAll("[data-aj]").forEach(function (inp) {
+      inp.addEventListener("input", function () {
+        S.aj[inp.getAttribute("data-aj")] = inp.value;
+        renderText();
+        saveAjustes();
+      });
+    });
+  }
+  function renderAjustes(force) {
+    document.querySelectorAll("[data-aj]").forEach(function (inp) {
+      if (force || document.activeElement !== inp) inp.value = S.aj[inp.getAttribute("data-aj")] || "";
+    });
+  }
+
+  function buildPerfs() {
+    $("perfs").innerHTML = PERF_IDS.map(function (id, i) {
+      return '<div class="perf"><span class="num">' + (i + 1) + '</span><div class="body">' +
+        '<div class="fields">' +
+          '<label class="f" for="' + id + '-nombre">Nombre<input id="' + id + '-nombre" data-perf="' + id + '" data-k="nombre" placeholder="Ej: el nombre del frasco"></label>' +
+          '<label class="f" for="' + id + '-para">Para quién o cuándo<input id="' + id + '-para" data-perf="' + id + '" data-k="para" placeholder="Ej: noche, salida, invierno"></label>' +
+        '</div>' +
+        '<label class="f" for="' + id + '-huele">A qué huele<input id="' + id + '-huele" data-perf="' + id + '" data-k="huele" placeholder="Ej: vainilla, café y un toque de canela"></label>' +
+        '<div class="money">' +
+          '<label class="f" for="' + id + '-costo">Te sale<div class="pre"><span>$</span><input id="' + id + '-costo" data-perf="' + id + '" data-k="costo" type="number" inputmode="numeric" min="0" placeholder="0"></div></label>' +
+          '<label class="f" for="' + id + '-precio">Lo vendés a<div class="pre"><span>$</span><input id="' + id + '-precio" data-perf="' + id + '" data-k="precio" type="number" inputmode="numeric" min="0" placeholder="0"></div></label>' +
+        '</div>' +
+        '<span class="margin" id="' + id + '-margin"></span>' +
+      '</div></div>';
+    }).join("");
+    $("perfs").addEventListener("input", function (ev) {
+      var id = ev.target.getAttribute("data-perf");
+      if (!id) return;
+      S.perf[id][ev.target.getAttribute("data-k")] = ev.target.value;
+      renderMargins();
+      renderPerfSelects();
+      renderText();
+      renderLista();
+      savePerf(id);
+    });
+  }
+  function renderPerfInputs() {
+    document.querySelectorAll("[data-perf]").forEach(function (inp) {
+      if (document.activeElement === inp) return;
+      var v = S.perf[inp.getAttribute("data-perf")][inp.getAttribute("data-k")];
+      inp.value = v == null ? "" : v;
+    });
+  }
+  function renderMargins() {
+    PERF_IDS.forEach(function (id) {
+      var p = S.perf[id], el = $(id + "-margin");
+      var c = num(p.costo), v = num(p.precio);
+      if (c == null || v == null || v <= 0) { el.textContent = "Cargá costo y precio para ver cuánto ganás."; el.className = "margin muted"; return; }
+      var g = v - c, pct = Math.round(g / v * 100);
+      el.textContent = "Ganás " + money(g) + " por venta (" + pct + "% del precio)" + (pct < 25 ? ". Es poco margen: subí el precio o negociá el costo." : "");
+      el.className = "margin " + (pct < 25 ? "low" : "ok");
+    });
+  }
+
+  var lastSelSig = "";
+  function renderPerfSelects() {
+    var sig = PERF_IDS.map(perfName).join("|");
+    if (sig === lastSelSig) return;
+    lastSelSig = sig;
+    document.querySelectorAll(".perf-select").forEach(function (sel) {
+      var cur = sel.value || "p1";
+      sel.innerHTML = PERF_IDS.map(function (id) { return '<option value="' + id + '">' + esc(perfName(id)) + '</option>'; }).join("");
+      sel.value = cur;
+    });
+  }
+
+  /* ---------- Render: text that depends on data ---------- */
+  function renderText() { renderBios(); renderMsgs(); renderGrid(); }
+
+  function renderBios() {
+    var v = vars("p1", "");
+    $("bios").innerHTML = BIOS.map(function (b, i) {
+      var t = fill(b, v), n = chars(t);
+      return '<div class="copy"><div class="top"><span class="when">Opción ' + (i + 1) + '</span>' +
+        '<span><span class="count' + (n > 150 ? " over" : "") + '">' + n + '/150</span> ' +
+        '<button type="button" class="btn-ghost" data-copy="bio-' + i + '">Copiar</button></span></div>' +
+        '<div class="txt" id="bio-' + i + '">' + esc(t) + '</div></div>';
+    }).join("");
+  }
+
+  function renderMsgs() {
+    var v = vars($("m-perfume").value || "p1", $("m-nombre").value.trim());
+    $("msgs").innerHTML = MSGS.map(function (m) {
+      return '<div class="copy' + (S.destacar === m.id ? " hl" : "") + '" id="card-' + m.id + '"><div class="top"><span class="when">' + esc(m.cuando) + '</span>' +
+        '<button type="button" class="btn-ghost" data-copy="msg-' + m.id + '">Copiar</button></div>' +
+        '<div class="txt" id="msg-' + m.id + '">' + esc(fill(m.txt, v)) + '</div></div>';
+    }).join("");
+  }
+
+  function renderGrid() {
+    var marca = S.aj.marca || "tu marca";
+    var posts = [
+      "Quién soy y por qué arranqué " + marca + " (reel con tus manos y los frascos)"
+    ];
+    PERF_IDS.forEach(function (id) { posts.push(perfName(id) + ": foto del frasco + carrusel con a qué huele y para quién"); });
+    posts.push("Los 5 juntos, foto de familia");
+    posts.push("Cómo comprar: escribís, lo olés, pagás, te llega");
+    posts.push("Reacciones: gente oliendo las tiras");
+    // Profile shows newest first: post 9 top-left, post 1 bottom-right.
+    var html = "";
+    for (var i = posts.length - 1; i >= 0; i--) {
+      html += '<div class="tile"><b>' + (i + 1) + '</b><span>' + esc(posts[i]) + '</span></div>';
+    }
+    $("grid9").innerHTML = html;
+  }
+
+  /* ---------- Tracker ---------- */
+  function buildForm() {
+    $("c-estado").innerHTML = ESTADOS.map(function (e) { return '<option value="' + e[0] + '">' + esc(e[1]) + '</option>'; }).join("");
+    $("add-form").addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var nombre = $("c-nombre").value.trim();
+      if (!nombre) return;
+      if (!S.db || !S.canWrite) { $("add-status").textContent = "No se puede guardar desde acá. Abrí la página con tu cuenta de Claude."; return; }
+      var now = new Date().toISOString();
+      var estado = $("c-estado").value;
+      var perfume = $("c-perfume").value;
+      var body = {
+        nombre: nombre,
+        contacto: $("c-contacto").value.trim(),
+        perfume: perfume,
+        estado: estado,
+        nota: $("c-nota").value.trim(),
+        monto: estado === "compro" ? num(S.perf[perfume].precio) : null,
+        creado: now,
+        actualizado: now
+      };
+      $("c-submit").disabled = true;
+      S.db.collection("contactos").add(body).then(function () {
+        $("c-nombre").value = ""; $("c-contacto").value = ""; $("c-nota").value = "";
+        $("c-estado").value = "probo";
+        $("add-status").textContent = "Anotado.";
+        setTimeout(function () { $("add-status").textContent = ""; }, 1800);
+      }, function (e) { onWriteError(e); $("add-status").textContent = "No se guardó."; })
+        .then(function () { $("c-submit").disabled = false; });
+    });
+
+    document.querySelector(".filters").addEventListener("click", function (ev) {
+      var b = ev.target.closest("[data-filtro]");
+      if (!b) return;
+      S.filtro = b.getAttribute("data-filtro");
+      document.querySelectorAll("[data-filtro]").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+      renderLista();
+    });
+
+    $("list").addEventListener("change", function (ev) {
+      var id = ev.target.getAttribute("data-id");
+      if (!id || !S.db || !S.canWrite) return;
+      var c = S.contactos.find(function (x) { return x.id === id; });
+      if (!c) return;
+      var patch = { actualizado: new Date().toISOString() };
+      var isEstado = ev.target.hasAttribute("data-estado");
+      if (isEstado) {
+        patch.estado = ev.target.value;
+        if (patch.estado === "compro" && num(c.monto) == null) patch.monto = num(S.perf[c.perfume] && S.perf[c.perfume].precio);
+      } else if (ev.target.hasAttribute("data-monto")) {
+        patch.monto = num(ev.target.value);
+      } else return;
+      Object.assign(c, patch);
+      if (isEstado) renderLista(); else renderStats();
+      queueWrite("contactos/" + id, function () { return S.db.doc("contactos/" + id).update(patch); });
+    });
+
+    $("list").addEventListener("click", function (ev) {
+      var b = ev.target.closest("button[data-act]");
+      if (!b) return;
+      var id = b.getAttribute("data-id"), act = b.getAttribute("data-act");
+      var c = S.contactos.find(function (x) { return x.id === id; });
+      if (!c) return;
+      if (act === "msg") {
+        S.destacar = c.estado === "compro" ? (daysSince(c.actualizado) > 60 ? "recompra" : "resena")
+          : c.estado === "escribi" ? "ultimo" : "oler";
+        $("m-perfume").value = c.perfume || "p1";
+        $("m-nombre").value = (c.nombre || "").split(" ")[0];
+        renderMsgs();
+        var card = $("card-" + S.destacar);
+        if (card) card.scrollIntoView({ block: "center" });
+      } else if (act === "del") {
+        b.parentElement.innerHTML = '<span class="confirm">¿Borrar a ' + esc(c.nombre) + '? <button type="button" class="link-btn danger" data-act="del-ok" data-id="' + esc(id) + '">Sí, borrar</button> <button type="button" class="link-btn" data-act="del-no" data-id="' + esc(id) + '">No</button></span>';
+      } else if (act === "del-ok") {
+        if (!S.db || !S.canWrite) return;
+        queueWrite("contactos/" + id, function () { return S.db.doc("contactos/" + id).delete(); });
+      } else if (act === "del-no") {
+        renderLista();
+      }
+    });
+  }
+
+  function dueOf(c) {
+    if (c.estado === "probo" && daysSince(c.creado) >= 1) return "Escribile hoy";
+    if (c.estado === "escribi" && daysSince(c.actualizado) >= 4) return "Último mensaje";
+    if (c.estado === "compro" && daysSince(c.actualizado) >= 60) return "Ofrecele recompra";
+    return "";
+  }
+
+  function renderStats() {
+    var total = S.contactos.length;
+    var compras = S.contactos.filter(function (c) { return c.estado === "compro"; });
+    var ventas = 0, ganancia = 0, ganCompleta = true;
+    compras.forEach(function (c) {
+      var m = num(c.monto); if (m != null) ventas += m;
+      var cost = num(S.perf[c.perfume] && S.perf[c.perfume].costo);
+      if (m != null && cost != null) ganancia += m - cost; else ganCompleta = false;
+    });
+    var conv = total ? Math.round(compras.length / total * 100) + "%" : "–";
+    var items = [
+      [total, "Lo olieron"],
+      [compras.length, "Compraron"],
+      [conv, "Conversión"],
+      [compras.length ? money(ganancia) + (ganCompleta ? "" : "*") : "$0", "Ganancia"]
+    ];
+    $("stats").innerHTML = items.map(function (it) {
+      return '<div class="stat"><div class="v">' + esc(it[0]) + '</div><div class="l">' + esc(it[1]) + '</div></div>';
+    }).join("");
+  }
+
+  var dbReady = false;
+  function renderLista() {
+    renderStats();
+    var list = S.contactos.slice();
+    if (S.filtro === "hoy") list = list.filter(function (c) { return dueOf(c); });
+    if (S.filtro === "compro") list = list.filter(function (c) { return c.estado === "compro"; });
+    if (!list.length) {
+      var msg;
+      if (!S.db) msg = dbReady ? "Para guardar tu lista abrí esta página con tu cuenta de Claude." : "Cargando tu lista…";
+      else if (!S.contactos.length) msg = "Todavía no anotaste a nadie. Cuando alguien huela un perfume, anotalo arriba.";
+      else if (S.filtro === "hoy") msg = "Nadie para escribir hoy. Bien ahí.";
+      else msg = "Todavía no hay ventas anotadas.";
+      $("list").innerHTML = '<div class="empty">' + esc(msg) + '</div>';
+      return;
+    }
+    var ro = !S.canWrite ? " disabled" : "";
+    $("list").innerHTML = list.map(function (c) {
+      var due = dueOf(c);
+      var id = esc(c.id);
+      var opts = ESTADOS.map(function (e) { return '<option value="' + e[0] + '"' + (c.estado === e[0] ? " selected" : "") + '>' + esc(e[1]) + '</option>'; }).join("");
+      var meta = esc(perfName(c.perfume)) + " · " + ago(c.creado) + (c.contacto ? " · " + esc(c.contacto) : "");
+      return '<div class="item">' +
+        '<div class="l1"><div><div class="who">' + esc(c.nombre) + '</div><div class="meta">' + meta + '</div>' +
+          (c.nota ? '<div class="meta">' + esc(c.nota) + '</div>' : '') + '</div>' +
+          (due ? '<span class="pill due">' + esc(due) + '</span>' : (c.estado === "compro" ? '<span class="pill ok">Venta</span>' : '')) + '</div>' +
+        '<div class="l2">' +
+          '<select aria-label="Estado de ' + esc(c.nombre) + '" data-id="' + id + '" data-estado' + ro + '>' + opts + '</select>' +
+          (c.estado === "compro" ? '<div class="pre monto"><span>$</span><input type="number" inputmode="numeric" min="0" aria-label="Monto de la venta" data-id="' + id + '" data-monto value="' + esc(c.monto == null ? "" : c.monto) + '"' + ro + '></div>' : '') +
+          '<button type="button" class="btn-ghost" data-act="msg" data-id="' + id + '">Armar mensaje</button>' +
+          (S.canWrite ? '<span><button type="button" class="link-btn" data-act="del" data-id="' + id + '">Borrar</button></span>' : '') +
+        '</div></div>';
+    }).join("");
+  }
+
+  /* ---------- Composer controls ---------- */
+  $("m-perfume").addEventListener("change", function () { S.destacar = null; renderMsgs(); });
+  $("m-nombre").addEventListener("input", function () { renderMsgs(); });
+
+  /* ---------- Boot ---------- */
+  buildChecks(); buildNames(); buildAjustes(); buildPerfs(); buildForm();
+  renderPerfSelects(); renderAjustes(); renderPerfInputs(); renderMargins(); renderChecks(); renderText(); renderLista();
+
+  function connect() {
+    var c = window.claude;
+    if (!c || typeof c.use !== "function") { dbReady = true; status("Estás viendo una copia sin conexión: lo que cargues no se guarda."); renderLista(); return; }
+    c.use("db").then(function (db) {
+      dbReady = true;
+      if (!db) { status("Para guardar tus datos abrí esta página con tu cuenta de Claude. Igual podés usar todo lo demás."); renderLista(); return; }
+      S.db = db;
+      c.use("user").then(function (u) {
+        if (!u) return null;
+        return u.can("data.write");
+      }).then(function (can) {
+        if (can === false) { S.canWrite = false; status("Estás viendo la página en modo lectura."); renderLista(); }
+      }, function () {});
+      subscribe(db);
+    }, function () { dbReady = true; status("No se pudo conectar con tus datos.", true); renderLista(); });
+  }
+
+  function subscribe(db) {
+    var pending = 4;
+    var timer = setTimeout(function () { status("Todavía no se pudo conectar con tus datos. Lo que ves puede no estar al día.", true); }, 10000);
+    function confirmed(snap) {
+      if (snap.metadata && snap.metadata.fromCache) return;
+      if (pending > 0) { pending--; if (pending === 0) { clearTimeout(timer); status(S.canWrite ? "Todo se guarda solo." : "Estás viendo la página en modo lectura."); } }
+    }
+    function fail(e) { clearTimeout(timer); if (e && e.code === "revoked") status("Ya no tenés acceso a estos datos."); else status("Se cortó la conexión con tus datos. Recargá la página.", true); }
+
+    db.doc("ajustes/general").onSnapshot(function (snap) {
+      if (snap.exists) { var d = snap.data(); S.aj = { marca: d.marca || "", usuario: d.usuario || "", zona: d.zona || "" }; renderAjustes(); renderText(); }
+      confirmed(snap);
+    }, fail);
+
+    db.collection("perfumes").onSnapshot(function (snap) {
+      snap.docs.forEach(function (d) {
+        if (PERF_IDS.indexOf(d.id) < 0) return;
+        var x = d.data();
+        S.perf[d.id] = { nombre: x.nombre || "", huele: x.huele || "", para: x.para || "", costo: x.costo == null ? "" : x.costo, precio: x.precio == null ? "" : x.precio };
+      });
+      renderPerfInputs(); renderMargins(); renderPerfSelects(); renderText(); renderLista();
+      confirmed(snap);
+    }, fail);
+
+    db.doc("progreso/checklist").onSnapshot(function (snap) {
+      if (snap.exists) { S.hechos = Object.assign({}, (snap.data() || {}).hechos || {}); renderChecks(); }
+      confirmed(snap);
+    }, fail);
+
+    db.collection("contactos").orderBy("creado", "desc").onSnapshot(function (snap) {
+      S.contactos = snap.docs.map(function (d) { var x = d.data(); return Object.assign({ id: d.id }, x); });
+      var focused = document.activeElement && document.activeElement.closest && document.activeElement.closest("#list");
+      if (!focused) renderLista(); else renderStats();
+      confirmed(snap);
+    }, fail);
+  }
+
+  connect();
+})();
+</script>
